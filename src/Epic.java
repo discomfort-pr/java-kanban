@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 public class Epic extends Task {
-    private final ArrayList<Subtask> subtasks;
+    private final ArrayList<Integer> subtasks;
 
     public Epic(String name, String description, int id) {
         super(name, description, id);
@@ -23,17 +23,21 @@ public class Epic extends Task {
                 '}';
     }
 
-    public void addSubtask(Subtask subtask) {
-        if (!subtasks.contains(subtask)) {
-            subtasks.add(subtask);
+    public void addSubtask(int subtaskId) {
+        if (!subtasks.contains(subtaskId)) {
+            subtasks.add(subtaskId);
         }
     }
 
-    public void removeSubtask(Subtask subtask) {
-        subtasks.remove(subtask);
+    public void removeSubtask(int subtaskId) {
+        subtasks.remove(subtaskId);
     }
 
-    public ArrayList<Subtask> getSubtasks() {
+    public ArrayList<Integer> getSubtasks() {
         return subtasks;
+    }
+
+    public void setStatus(TaskStatus status) {
+        this.status = status;
     }
 }

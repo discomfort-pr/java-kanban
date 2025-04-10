@@ -4,7 +4,7 @@ public class Task {
     protected final String name;
     protected final String description;
     protected final int id;
-    protected final TaskStatus status;
+    protected TaskStatus status;
 
     public Task(String name, String description, int id) {
         this.name = name;
@@ -42,11 +42,11 @@ public class Task {
                 '}';
     }
 
-    public int getId() {
-        return id;
-    }
-
     public TaskStatus getStatus() {
         return status;
+    }
+
+    public int getId() {
+        return id;
     }
 }
