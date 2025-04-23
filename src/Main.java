@@ -1,7 +1,17 @@
+import managers.InMemoryTaskManager;
+import managers.TaskManager;
+import tasks.Epic;
+import tasks.Subtask;
+import tasks.Task;
+import tasks.TaskStatus;
+import util.Managers;
+
+import java.util.ArrayList;
+
 public class Main {
 
     public static void main(String[] args) {
-        TaskManager tm = new TaskManager();
+        TaskManager tm = new InMemoryTaskManager();
 
         Task t1 = new Task("task1", "this");
         Task t2 = new Task("task2", "");
@@ -91,5 +101,27 @@ public class Main {
         System.out.println("11###");
         System.out.println(tm.getEpics());
         System.out.println(tm.getSubtasks());
+
+
+        InMemoryTaskManager tm1 = (InMemoryTaskManager) Managers.getDefault();
+
+        Task to = new Task("", "");
+        tm1.addTask(to);
+
+        Epic eo = new Epic("", "");
+        tm1.addEpic(eo);
+
+        Subtask so = new Subtask("", "", eo.getId());
+        tm1.addSubtask(so);
+
+        System.out.println("12###");
+        tm1.getSubtask(so.getId());
+        tm1.getTask(to.getId());
+        tm1.getEpic(eo.getId());
+        tm1.getEpic(eo.getId());
+        tm1.getSubtask(so.getId());
+        tm1.getTask(to.getId());
+
+        System.out.println(tm1.getHistoryManager().getHistory());
     }
 }

@@ -1,3 +1,5 @@
+package tasks;
+
 import java.util.Objects;
 
 public class Task {
@@ -34,12 +36,16 @@ public class Task {
 
     @Override
     public String toString() {
-        return "Task{" +
+        return "tasks.Task{" +
                 "name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", id=" + id +
                 ", status=" + status +
                 '}';
+    }
+
+    public void setStatus(TaskStatus status) {
+        this.status = status;
     }
 
     public TaskStatus getStatus() {
@@ -52,5 +58,13 @@ public class Task {
 
     public int getId() {
         return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
     }
 }
