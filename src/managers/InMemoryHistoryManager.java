@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class InMemoryHistoryManager implements HistoryManager {
-    private final ArrayList<Integer> history;
+    private final List<Integer> history;
 
     public InMemoryHistoryManager() {
         history = new ArrayList<>();
@@ -16,11 +16,6 @@ public class InMemoryHistoryManager implements HistoryManager {
             history.removeFirst();
         }
         history.add(taskId);
-    }
-
-    @Override
-    public void removeLast() {
-        history.removeLast();
     }
 
     @Override

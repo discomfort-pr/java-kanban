@@ -21,7 +21,7 @@ public interface TaskManager {
 
     void addTask(Task newTask);
 
-    boolean addSubtask(Subtask newSubtask);
+    void addSubtask(Subtask newSubtask);
 
     void addEpic(Epic newEpic);
 
@@ -38,4 +38,6 @@ public interface TaskManager {
     void removeEpic(int id);
 
     List<Integer> getEpicSubtasks(int epicId);
+
+    List<Integer> getHistory();
 }

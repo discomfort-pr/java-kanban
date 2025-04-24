@@ -19,9 +19,10 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    public void shouldReturnFalseWhenTryingAddEpicAsSubtask() {
+    public void shouldNotAddEpicAsSubtask() {
         Subtask subtask = new Subtask("name", "description", 0);
-        assertFalse(taskManager.addSubtask(subtask));
+        taskManager.addSubtask(subtask);
+        assertNull(taskManager.getSubtask(subtask.getId()));
     }
 
     @Test
@@ -33,7 +34,7 @@ class InMemoryTaskManagerTest {
         taskManager.addEpic(epic);
 
         Subtask subtask = new Subtask("3", "", epic.getId());
-        assertTrue(taskManager.addSubtask(subtask));
+        taskManager.addSubtask(subtask);
 
         assertNotNull(taskManager.getTask(task.getId()));
         assertNotNull(taskManager.getSubtask(subtask.getId()));
@@ -50,7 +51,7 @@ class InMemoryTaskManagerTest {
         taskManager.addTask(task1);
         taskManager.addTask(task2);
 
-        assertFalse(taskManager.getTask(task1.getId()).equals(taskManager.getTask(task2.getId())));
+        assertNotEquals(taskManager.getTask(task1.getId()), taskManager.getTask(task2.getId()));
     }
 
     @Test
@@ -61,9 +62,9 @@ class InMemoryTaskManagerTest {
         taskManager.addTask(task);
 
         // метод clone почему то нельзя вызвать
-        assertEquals(taskManager.getTask(task.getId()).getName(), taskName);
-        assertEquals(taskManager.getTask(task.getId()).getDescription(), taskDescription);
-        assertEquals(taskManager.getTask(task.getId()).getStatus(), TaskStatus.NEW);
+        assertEquals(taskName, taskManager.getTask(task.getId()).getName());
+        assertEquals(taskDescription, taskManager.getTask(task.getId()).getDescription());
+        assertEquals(TaskStatus.NEW, taskManager.getTask(task.getId()).getStatus());
         // айди по идее нет смысла проверять
     }
 }

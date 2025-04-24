@@ -15,7 +15,7 @@ class ManagersTest {
         assertNotNull(taskManager);
         assertNotNull(taskManager.getTasks());
         assertNotNull(taskManager.getSubtasks());
-        assertNotNull(taskManager.getHistoryManager().getHistory());
+        assertNotNull(taskManager.getHistory());
 
         assertNotNull(historyManager);
     }

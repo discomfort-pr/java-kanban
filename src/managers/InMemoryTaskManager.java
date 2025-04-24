@@ -6,11 +6,12 @@ import util.Managers;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class InMemoryTaskManager implements TaskManager {
-    private final HashMap<Integer, Task> tasks;
-    private final HashMap<Integer, Subtask> subtasks;
-    private final HashMap<Integer, Epic> epics;
+    private final Map<Integer, Task> tasks;
+    private final Map<Integer, Subtask> subtasks;
+    private final Map<Integer, Epic> epics;
     private final HistoryManager historyManager;
     private int taskId = 0;
 
@@ -23,17 +24,17 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public List<Task> getTasks() {
-        return new ArrayList<Task>(tasks.values());
+        return new ArrayList<>(tasks.values());
     }
 
     @Override
     public List<Subtask> getSubtasks() {
-        return new ArrayList<Subtask>(subtasks.values());
+        return new ArrayList<>(subtasks.values());
     }
 
     @Override
     public List<Epic> getEpics() {
-        return new ArrayList<Epic>(epics.values());
+        return new ArrayList<>(epics.values());
     }
 
     @Override
@@ -61,14 +62,14 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public boolean addSubtask(Subtask newSubtask) {
+    public void addSubtask(Subtask newSubtask) {
         Epic epic = getEpic(newSubtask.getEpicId());
-        historyManager.removeLast();
+        getHistory().removeLast();
         /* проверка на наличие в менеджере объекта типа Epic, чтобы избежать ситуации, когда
            у сабтаски в качестве эпика хранится не эпик, либо если самого эпика в менеджере нет
          */
         if (epic == null) {
-            return false;
+            return;
         }
 
         newSubtask.setId(getNextId());
@@ -76,9 +77,6 @@ public class InMemoryTaskManager implements TaskManager {
 
         epic.addSubtask(newSubtask.getId());
         updateEpicStatus(epic.getId());
-
-        // возвращаемое значение добавлено для удобства тестирования
-        return true;
     }
 
     @Override
@@ -100,7 +98,7 @@ public class InMemoryTaskManager implements TaskManager {
             return;
         }
         Epic subtaskEpic = getEpic(newSubtask.getEpicId());
-        historyManager.removeLast();
+        getHistory().removeLast();
 
         subtasks.put(newSubtask.getId(), newSubtask);
         updateEpicStatus(subtaskEpic.getId());
@@ -113,7 +111,7 @@ public class InMemoryTaskManager implements TaskManager {
         }
         // поскольку список подзаданий в конструкторе tasks.Epic создается пустым, его приходится пополнять здесь
         Epic oldEpic = getEpic(newEpic.getId());
-        historyManager.removeLast();
+        getHistory().removeLast();
 
         for (int subtaskId : oldEpic.getSubtasks()) {
             newEpic.addSubtask(subtaskId);
@@ -154,13 +152,13 @@ public class InMemoryTaskManager implements TaskManager {
 
     private void updateEpicStatus(int epicId) {
         Epic epic = getEpic(epicId);
-        historyManager.removeLast();
+        getHistory().removeLast();
 
         boolean allSubsNew = true;
         boolean allSubsDone = true;
         for (int id : epic.getSubtasks()) {
             TaskStatus status = getSubtask(id).getStatus();
-            historyManager.removeLast();
+            getHistory().removeLast();
             if (status != TaskStatus.NEW) {
                 allSubsNew = false;
             }
@@ -178,11 +176,11 @@ public class InMemoryTaskManager implements TaskManager {
         }
     }
 
-    public int getNextId() {
+    private int getNextId() {
         return taskId++;
     }
 
-    public HistoryManager getHistoryManager() {
-        return historyManager;
+    public List<Integer> getHistory() {
+        return historyManager.getHistory();
     }
 }

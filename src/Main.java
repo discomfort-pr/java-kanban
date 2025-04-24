@@ -6,8 +6,6 @@ import tasks.Task;
 import tasks.TaskStatus;
 import util.Managers;
 
-import java.util.ArrayList;
-
 public class Main {
 
     public static void main(String[] args) {
@@ -122,6 +120,6 @@ public class Main {
         tm1.getSubtask(so.getId());
         tm1.getTask(to.getId());
 
-        System.out.println(tm1.getHistoryManager().getHistory());
+        System.out.println(tm1.getHistory());
     }
 }
