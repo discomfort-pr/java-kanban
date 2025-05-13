@@ -14,7 +14,7 @@ class InMemoryTaskManagerTest {
     private static InMemoryTaskManager taskManager;
 
     @BeforeEach
-    public void initializeManager() {
+    public void createNewManager() {
         taskManager = (InMemoryTaskManager) Managers.getDefault();
     }
 
@@ -61,10 +61,48 @@ class InMemoryTaskManagerTest {
         Task task = new Task(taskName, taskDescription);
         taskManager.addTask(task);
 
-        // метод clone почему то нельзя вызвать
         assertEquals(taskName, taskManager.getTask(task.getId()).getName());
         assertEquals(taskDescription, taskManager.getTask(task.getId()).getDescription());
         assertEquals(TaskStatus.NEW, taskManager.getTask(task.getId()).getStatus());
-        // айди по идее нет смысла проверять
+    }
+
+    @Test
+    public void shouldNotSaveRemovedSubtasksInEpic() {
+        Epic e = new Epic("", "");
+        taskManager.addEpic(e);
+        Subtask s1 = new Subtask("", "", e.getId());
+        Subtask s2 = new Subtask("", "", e.getId());
+        Subtask s3 = new Subtask("", "", e.getId());
+
+        taskManager.addSubtask(s1);
+        taskManager.addSubtask(s2);
+        taskManager.addSubtask(s3);
+
+        taskManager.removeSubtask(s2.getId());
+
+        Integer[] subs = taskManager.getEpic(e.getId()).getSubtasks().toArray(new Integer[0]);
+        assertArrayEquals(new Integer[] {1, 3}, subs);
+    }
+
+    @Test
+    public void shouldNotSaveSubtasksWhenEpicRemoved() {
+        Epic e = new Epic("", "");
+        taskManager.addEpic(e);
+        Subtask s1 = new Subtask("", "", e.getId());
+        Subtask s2 = new Subtask("", "", e.getId());
+        Subtask s3 = new Subtask("", "", e.getId());
+
+        taskManager.addSubtask(s1);
+        taskManager.addSubtask(s2);
+        taskManager.addSubtask(s3);
+
+        taskManager.getSubtask(s1.getId());
+        taskManager.getSubtask(s2.getId());
+        taskManager.getSubtask(s3.getId());
+
+        taskManager.removeEpic(e.getId());
+
+        assertArrayEquals(taskManager.getSubtasks().toArray(new Subtask[0]), new Subtask[0]);
+        assertArrayEquals(taskManager.getHistory().toArray(new Integer[0]), new Integer[0]);
     }
 }
