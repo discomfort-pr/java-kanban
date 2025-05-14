@@ -11,6 +11,11 @@ public class Epic extends Task {
         subtasks = new ArrayList<>();
     }
 
+    public Epic(String name, String description, List<Integer> subtasks) {
+        super(name, description);
+        this.subtasks = subtasks;
+    }
+
     @Override
     public String toString() {
         return "tasks.Epic{" +
