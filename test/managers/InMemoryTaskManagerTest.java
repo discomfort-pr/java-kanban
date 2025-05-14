@@ -100,6 +100,6 @@ class InMemoryTaskManagerTest {
         taskManager.removeEpic(e.getId());
 
         assertArrayEquals(new Subtask[0], taskManager.getSubtasks().toArray(new Subtask[0]));
-        assertArrayEquals(new Task[0], taskManager.getHistory());
+        assertArrayEquals(new Task[0], taskManager.getHistory().toArray(new Task[0]));
     }
 }

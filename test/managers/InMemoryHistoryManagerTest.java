@@ -34,7 +34,7 @@ class InMemoryHistoryManagerTest {
         historyManager.add(t3);
         historyManager.add(t3);
 
-        Task[] history = historyManager.getHistory();
+        Task[] history = historyManager.getHistory().toArray(new Task[0]);
         assertArrayEquals(new Task[] {t2, t1, t3}, history);
     }
 
@@ -64,7 +64,7 @@ class InMemoryHistoryManagerTest {
         historyManager.remove(3);
         historyManager.remove(4);
 
-        Task[] history = historyManager.getHistory();
+        Task[] history = historyManager.getHistory().toArray(new Task[0]);
         assertArrayEquals(new Task[] {t2, t5, t6}, history);
     }
 }
