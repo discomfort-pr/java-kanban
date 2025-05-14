@@ -1,20 +1,11 @@
 package managers;
 
-import java.util.*;
+import tasks.Task;
+
+import java.util.Map;
+import java.util.HashMap;
 
 public class InMemoryHistoryManager implements HistoryManager {
-    class Node {
-        private Node next;
-        private Node prev;
-        private final int taskId;
-
-        public Node(Node next, Node prev, int taskId) {
-            this.next = next;
-            this.prev = prev;
-            this.taskId = taskId;
-        }
-    }
-
     private final Map<Integer, Node> nodes;
     private Node head;
     private Node tail;
@@ -24,12 +15,12 @@ public class InMemoryHistoryManager implements HistoryManager {
     }
 
     @Override
-    public void add(int taskId) {
-        if (nodes.containsKey(taskId)) {
-            removeNode(nodes.get(taskId));
+    public void add(Task task) {
+        if (nodes.containsKey(task.getId())) {
+            removeNode(nodes.get(task.getId()));
         }
-        Node last = linkLast(taskId);
-        nodes.put(taskId, last);
+        Node last = linkLast(task);
+        nodes.put(task.getId(), last);
     }
 
     @Override
@@ -39,24 +30,25 @@ public class InMemoryHistoryManager implements HistoryManager {
     }
 
     @Override
-    public List<Integer> getHistory() {
-        List<Integer> history = new ArrayList<>();
+    public Task[] getHistory() {
+        Task[] history = new Task[nodes.size()];
 
         Node current = head;
+        int index = 0;
         while (current != null) {
-            history.add(current.taskId);
+            history[index++] = current.task;
             current = current.next;
         }
         return history;
     }
 
-    private Node linkLast(int taskId) {
+    private Node linkLast(Task task) {
         Node last;
         if (head == null) {
-            last = new Node(null, null, taskId);
+            last = new Node(null, null, task);
             head = tail = last;
         } else {
-            last = new Node(null, tail, taskId);
+            last = new Node(null, tail, task);
             tail.next = last;
             tail = tail.next;
         }
@@ -80,5 +72,15 @@ public class InMemoryHistoryManager implements HistoryManager {
         }
     }
 
-    // как я понимаю метод getTasks делает то же, что и getHistory
+    private static class Node {
+        private Node next;
+        private Node prev;
+        private final Task task;
+
+        public Node(Node next, Node prev, Task task) {
+            this.next = next;
+            this.prev = prev;
+            this.task = task;
+        }
+    }
 }

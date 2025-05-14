@@ -4,10 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import tasks.Epic;
-import tasks.Subtask;
-import tasks.Task;
-import tasks.TaskStatus;
+import tasks.*;
 import util.Managers;
 
 class InMemoryTaskManagerTest {
@@ -103,6 +100,6 @@ class InMemoryTaskManagerTest {
         taskManager.removeEpic(e.getId());
 
         assertArrayEquals(new Subtask[0], taskManager.getSubtasks().toArray(new Subtask[0]));
-        assertArrayEquals(new Integer[0], taskManager.getHistory().toArray(new Integer[0]));
+        assertArrayEquals(new Task[0], taskManager.getHistory());
     }
 }
