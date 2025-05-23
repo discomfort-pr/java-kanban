@@ -13,7 +13,7 @@ public class Main {
 
         Task t1 = new Task("task1", "this");
         Task t2 = new Task("task2", "");
-        Task t1_u = new Task(t1, TaskStatus.IN_PROGRESS);
+        Task updatedT1 = new Task(t1, TaskStatus.IN_PROGRESS);
 
         tm.addTask(t1);
         tm.addTask(t2);
@@ -21,7 +21,7 @@ public class Main {
         System.out.println("1###");
         System.out.println(tm.getTasks());
 
-        tm.updateTask(t1_u);
+        tm.updateTask(updatedT1);
 
         System.out.println("2###");
         System.out.println(tm.getTasks());
@@ -56,33 +56,33 @@ public class Main {
         System.out.println(tm.getEpics());
         System.out.println(tm.getSubtasks());
 
-        Subtask s3_u = new Subtask(s3, TaskStatus.DONE);
+        Subtask updatedS3 = new Subtask(s3, TaskStatus.DONE);
 
-        tm.updateSubtask(s3_u);
+        tm.updateSubtask(updatedS3);
 
         System.out.println("6###");
         System.out.println(tm.getEpic(e2.getId()));
         System.out.println(tm.getSubtasks());
 
-        s3_u = new Subtask(s3, TaskStatus.IN_PROGRESS);
+        updatedS3 = new Subtask(s3, TaskStatus.IN_PROGRESS);
 
-        tm.updateSubtask(s3_u);
+        tm.updateSubtask(updatedS3);
 
         System.out.println("7###");
         System.out.println(tm.getEpic(e2.getId()));
-        System.out.println(tm.getSubtask(s3_u.getId()));
+        System.out.println(tm.getSubtask(updatedS3.getId()));
 
-        Subtask s2_u = new Subtask(s2, TaskStatus.DONE);
+        Subtask updatedS2 = new Subtask(s2, TaskStatus.DONE);
 
-        tm.updateSubtask(s2_u);
+        tm.updateSubtask(updatedS2);
 
         System.out.println("8###");
         System.out.println(tm.getEpic(e1.getId()));
         System.out.println(tm.getSubtasks());
 
-        Subtask s1_u = new Subtask(s1, TaskStatus.DONE);
+        Subtask updatedS1 = new Subtask(s1, TaskStatus.DONE);
 
-        tm.updateSubtask(s1_u);
+        tm.updateSubtask(updatedS1);
 
         System.out.println("9###");
         System.out.println(tm.getEpic(e1.getId()));
@@ -94,7 +94,7 @@ public class Main {
         System.out.println(tm.getEpics());
         System.out.println(tm.getSubtasks());
 
-        tm.removeSubtask(s3_u.getId());
+        tm.removeSubtask(updatedS3.getId());
 
         System.out.println("11###");
         System.out.println(tm.getEpics());
